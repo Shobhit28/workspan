@@ -86,14 +86,15 @@ def entities_to_be_copied(adj_list, entity_id, visited, entity_list, entity_deta
 if len(sys.argv) < 3:
     print_usage('Not valid number of arguments')
     sys.exit(1)
-file_name = sys.argv[1]
-entity_id = int(sys.argv[2])
 
+file_name = sys.argv[1]
 try:
+    entity_id = int(sys.argv[2])
     file_data = json.load(open(file_name))
     deep_copy_entity(file_data, entity_id)
 except FileNotFoundError:
     print_usage('cannot find the file %s' % file_name)
     sys.exit(1)
-except ValueError:
-    print_usage('File %s is not valid json file' % file_name)
+except ValueError as e:
+    log.error(e)
+    sys.exit(1)
